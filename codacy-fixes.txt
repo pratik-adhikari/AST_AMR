@@ -1,0 +1,34 @@
+diff --git a/README.md b/README.md
+--- a/README.md
++++ b/README.md
+@@ -3,1 +3,1 @@
+-## Task:
++## Task:
+
+@@ -6,1 +6,1 @@
+-## Overview:
++## Overview
+@@ -10,1 +10,1 @@
+-Please clone the repository of the assignment("https://github.com/HBRS-AMR/SS23_Assignment_BehaviorTree.git") in the src/ folder of your workspace (It can be cloned inside the workspace having rolling packages as well).
++Please clone the repository of the assignment("<https://github.com/HBRS-AMR/SS23_Assignment_BehaviorTree.git>") in the src/ folder of your workspace (It can be cloned inside the workspace having rolling packages as well).
+@@ -26,1 +26,1 @@
+-## Setting up your system:
++## Setting up your system
+@@ -49,1 +49,1 @@
+-2. If not completed already, please clone the assignment file ("https://github.com/HBRS-AMR/SS23_Assignment_BehaviorTree.git") in the src folder of your workspace (it can be cloned inside the workspace having rolling packages as well). Source the ROS2 foxy setup file. Whenever behavior tree related packages are to be run, please source this file followed by the workspace setup file:
++2. If not completed already, please clone the assignment file ("<https://github.com/HBRS-AMR/SS23_Assignment_BehaviorTree.git>") in the src folder of your workspace (it can be cloned inside the workspace having rolling packages as well). Source the ROS2 foxy setup file. Whenever behavior tree related packages are to be run, please source this file followed by the workspace setup file:
+@@ -78,1 +78,1 @@
+-## Instructions to run scripts:
++## Instructions to run scripts
+@@ -113,1 +113,1 @@
+-
++
+@@ -169,1 +169,1 @@
+-## References:
++## References
+@@ -174,1 +174,1 @@
+-2. Tutorial for behavior tree implementation (py_trees_ros): https://py-trees-ros-tutorials.readthedocs.io/en/release-2.1.x/tutorials.html
++2. Tutorial for behavior tree implementation (py_trees_ros): <https://py-trees-ros-tutorials.readthedocs.io/en/release-2.1.x/tutorials.html>
+@@ -176,1 +176,1 @@
+-3. Tutorial for py_trees: https://py-trees.readthedocs.io/en/release-2.1.x/introduction.html
++3. Tutorial for py_trees: <https://py-trees.readthedocs.io/en/release-2.1.x/introduction.html>
