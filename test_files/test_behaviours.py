@@ -18,8 +18,8 @@ import py_trees as pt
 from behaviours import Rotate, StopMotion2bb, BatteryStatus2bb, LaserScan2bb, create_root
 #from state-machine-behavious-and-trees
 
-# Helper class to mock ROS node and publishers
-class MockNode(Node):
+# Helper class to Main ROS node and publishers
+class MainNode(Node):
     def __init__(self, name):
         super().__init__(name)
         self.published_messages = {}
@@ -34,7 +34,7 @@ class MockNode(Node):
         publisher.publish = publish
         return publisher
 
-# Setup pytest fixture to initialize ROS and MockNode
+# Setup pytest fixture to initialize ROS and MainNode
 @pytest.fixture(scope="module")
 def ros_setup():
     rclpy.init(args=None)
@@ -42,41 +42,41 @@ def ros_setup():
     rclpy.shutdown()
 
 @pytest.fixture
-def mock_node():
-    return MockNode("mock_node")
+def Main_node():
+    return MainNode("Main_node")
 
-def test_rotate(ros_setup, mock_node):
+def test_rotate(ros_setup, Main_node):
     rotate = Rotate(name="Rotate", topic_name="/cmd_vel", ang_vel=0.5)
-    rotate.setup(node=mock_node)
+    rotate.setup(node=Main_node)
     
     status = rotate.update()
     assert status == Status.RUNNING
 
     # Check if a Twist message was published with correct angular velocity
-    assert "/cmd_vel" in mock_node.published_messages
-    twist_msg = mock_node.published_messages["/cmd_vel"][-1]
+    assert "/cmd_vel" in Main_node.published_messages
+    twist_msg = Main_node.published_messages["/cmd_vel"][-1]
     assert twist_msg.angular.z == 0.5
 
     rotate.terminate(new_status=Status.SUCCESS)
-    twist_msg = mock_node.published_messages["/cmd_vel"][-1]
+    twist_msg = Main_node.published_messages["/cmd_vel"][-1]
     assert twist_msg.angular.z == 0.0
 
-def test_stop_motion(ros_setup, mock_node):
+def test_stop_motion(ros_setup, Main_node):
     stop_motion = StopMotion2bb(name="Stop Motion", topic_name="/cmd_vel")
-    stop_motion.setup(node=mock_node)
+    stop_motion.setup(node=Main_node)
     
     status = stop_motion.update()
     assert status == Status.SUCCESS
 
     # Check if a Twist message was published with zero velocity
-    assert "/cmd_vel" in mock_node.published_messages
-    twist_msg = mock_node.published_messages["/cmd_vel"][-1]
+    assert "/cmd_vel" in Main_node.published_messages
+    twist_msg = Main_node.published_messages["/cmd_vel"][-1]
     assert twist_msg.angular.z == 0.0
     assert twist_msg.linear.x == 0.0
 
-def test_battery_status2bb(ros_setup, mock_node):
+def test_battery_status2bb(ros_setup, Main_node):
     battery_status = BatteryStatus2bb(battery_voltage_topic_name="/battery_voltage", threshold=30.0)
-    battery_status.setup(node=mock_node)
+    battery_status.setup(node=Main_node)
     
     # Simulate a low battery message
     battery_status.blackboard.battery = 20.0
@@ -90,9 +90,9 @@ def test_battery_status2bb(ros_setup, mock_node):
     assert status == Status.SUCCESS
     assert battery_status.blackboard.battery_low_warning == False
 
-def test_laser_scan2bb(ros_setup, mock_node):
+def test_laser_scan2bb(ros_setup, Main_node):
     laser_scan = LaserScan2bb(topic_name="/scan", safe_range=0.25)
-    laser_scan.setup(node=mock_node)
+    laser_scan.setup(node=Main_node)
 
     # Simulate a scan message with an obstacle in range
     laser_scan.blackboard.laser_scan = [0.2, 0.3, 0.4]
@@ -104,7 +104,7 @@ def test_laser_scan2bb(ros_setup, mock_node):
     status = laser_scan.update()
     assert status == Status.SUCCESS
 
-def test_create_root(ros_setup, mock_node):
+def test_create_root(ros_setup, Main_node):
     root = create_root()
     tree = ptr.trees.BehaviourTree(root=root)
     tree.setup(timeout=30.0)
